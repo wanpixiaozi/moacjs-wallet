@@ -1,7 +1,7 @@
 {
-  "name": "ethereumjs-wallet",
-  "version": "0.6.2",
-  "description": "Utilities for handling Ethereum keys",
+  "name": "moacjs-wallet",
+  "version": "1.0.0",
+  "description": "Utilities for handling Moac keys",
   "main": "index.js",
   "files": [
     "*.js",
@@ -18,29 +18,30 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ethereumjs/ethereumjs-wallet.git"
+    "url": "https://github.com/wanpixiaozi/moacjs-wallet.git"
   },
   "keywords": [
-    "ethereum",
+    "Moac",
     "wallets",
     "keys"
   ],
-  "author": "Alex Beregszaszi <alex@rtfs.hu>",
+  "author": "Cai Zhenglong <caizl2002@hotmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ethereumjs/ethereumjs-wallet/issues"
+    "url": "https://github.com/wanpixiaozi/moacjs-wallet/issues"
   },
-  "homepage": "https://github.com/ethereumjs/ethereumjs-wallet",
+  "homepage": "https://github.com/wanpixiaozi/moacjs-wallet",
   "dependencies": {
     "aes-js": "^3.1.1",
     "bs58check": "^2.1.2",
-    "ethereumjs-util": "^5.2.0",
     "hdkey": "^1.0.0",
+    "moacjs-util": "^1.0.2",
     "randombytes": "^2.0.6",
     "safe-buffer": "^5.1.2",
     "scrypt.js": "^0.2.0",
     "utf8": "^3.0.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "web3-provider-engine": "^14.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
