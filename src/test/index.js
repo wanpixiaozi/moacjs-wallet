@@ -256,9 +256,9 @@ describe('.fromMoacWallet()', function () {
   })
 })
 
-describe('.fromMoacCamp()', function () {
+describe('.fromEtherCamp()', function () {
   it('should work with seed text', function () {
-    var wallet = Thirdparty.fromMoacCamp('ethercamp123')
+    var wallet = Thirdparty.fromEtherCamp('ethercamp123')
     assert.equal(wallet.getAddressString(), '0x182b6ca390224c455f11b6337d74119305014ed4')
   })
 })

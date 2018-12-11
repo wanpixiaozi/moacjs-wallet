@@ -133,7 +133,7 @@ Thirdparty.fromMoacWallet = function (input, password) {
   return wallet
 }
 
-Thirdparty.fromMoacCamp = function (passphrase) {
+Thirdparty.fromEtherCamp = function (passphrase) {
   return new Wallet(moacUtil.keccak(Buffer.from(passphrase)))
 }
 
