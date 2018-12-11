@@ -1,5 +1,5 @@
 var Buffer = require('safe-buffer').Buffer
-var ethUtil = require('ethereumjs-util')
+var moacUtil = require('moacjs-util')
 var crypto = require('crypto')
 var randomBytes = require('randombytes')
 var scryptsy = require('scrypt.js')
@@ -21,11 +21,11 @@ var Wallet = function (priv, pub) {
     throw new Error('Cannot supply both a private and a public key to the constructor')
   }
 
-  if (priv && !ethUtil.isValidPrivate(priv)) {
+  if (priv && !moacUtil.isValidPrivate(priv)) {
     throw new Error('Private key does not satisfy the curve requirements (ie. it is invalid)')
   }
 
-  if (pub && !ethUtil.isValidPublic(pub)) {
+  if (pub && !moacUtil.isValidPublic(pub)) {
     throw new Error('Invalid public key')
   }
 
@@ -43,7 +43,7 @@ Object.defineProperty(Wallet.prototype, 'privKey', {
 Object.defineProperty(Wallet.prototype, 'pubKey', {
   get: function () {
     if (!this._pubKey) {
-      this._pubKey = ethUtil.privateToPublic(this.privKey)
+      this._pubKey = moacUtil.privateToPublic(this.privKey)
     }
     return this._pubKey
   }
@@ -51,10 +51,10 @@ Object.defineProperty(Wallet.prototype, 'pubKey', {
 
 Wallet.generate = function (icapDirect) {
   if (icapDirect) {
-    var max = new ethUtil.BN('088f924eeceeda7fe92e1f5b0fffffffffffffff', 16)
+    var max = new moacUtil.BN('088f924eeceeda7fe92e1f5b0fffffffffffffff', 16)
     while (true) {
       var privKey = randomBytes(32)
-      if (new ethUtil.BN(ethUtil.privateToAddress(privKey)).lte(max)) {
+      if (new moacUtil.BN(moacUtil.privateToAddress(privKey)).lte(max)) {
         return new Wallet(privKey)
       }
     }
@@ -70,7 +70,7 @@ Wallet.generateVanityAddress = function (pattern) {
 
   while (true) {
     var privKey = randomBytes(32)
-    var address = ethUtil.privateToAddress(privKey)
+    var address = moacUtil.privateToAddress(privKey)
 
     if (pattern.test(address.toString('hex'))) {
       return new Wallet(privKey)
@@ -83,7 +83,7 @@ Wallet.prototype.getPrivateKey = function () {
 }
 
 Wallet.prototype.getPrivateKeyString = function () {
-  return ethUtil.bufferToHex(this.getPrivateKey())
+  return moacUtil.bufferToHex(this.getPrivateKey())
 }
 
 Wallet.prototype.getPublicKey = function () {
@@ -91,19 +91,19 @@ Wallet.prototype.getPublicKey = function () {
 }
 
 Wallet.prototype.getPublicKeyString = function () {
-  return ethUtil.bufferToHex(this.getPublicKey())
+  return moacUtil.bufferToHex(this.getPublicKey())
 }
 
 Wallet.prototype.getAddress = function () {
-  return ethUtil.publicToAddress(this.pubKey)
+  return moacUtil.publicToAddress(this.pubKey)
 }
 
 Wallet.prototype.getAddressString = function () {
-  return ethUtil.bufferToHex(this.getAddress())
+  return moacUtil.bufferToHex(this.getAddress())
 }
 
 Wallet.prototype.getChecksumAddressString = function () {
-  return ethUtil.toChecksumAddress(this.getAddressString())
+  return moacUtil.toChecksumAddress(this.getAddressString())
 }
 
 // https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
@@ -142,7 +142,7 @@ Wallet.prototype.toV3 = function (password, opts) {
 
   var ciphertext = Buffer.concat([ cipher.update(this.privKey), cipher.final() ])
 
-  var mac = ethUtil.sha3(Buffer.concat([ derivedKey.slice(16, 32), Buffer.from(ciphertext, 'hex') ]))
+  var mac = moacUtil.keccak(Buffer.concat([ derivedKey.slice(16, 32), Buffer.from(ciphertext, 'hex') ]))
 
   return {
     version: 3,
@@ -164,7 +164,7 @@ Wallet.prototype.toV3 = function (password, opts) {
 Wallet.prototype.getV3Filename = function (timestamp) {
   /*
    * We want a timestamp like 2016-03-15T17-11-33.007598288Z. Date formatting
-   * is a pain in Javascript, everbody knows that. We could use moment.js,
+   * is a pain in Javascript, everybody knows that. We could use moment.js,
    * but decide to do it manually in order to save space.
    *
    * toJSON() returns a pretty close version, so let's use it. It is not UTC though,
@@ -189,7 +189,7 @@ Wallet.prototype.toV3String = function (password, opts) {
 
 Wallet.fromPublicKey = function (pub, nonStrict) {
   if (nonStrict) {
-    pub = ethUtil.importPublic(pub)
+    pub = moacUtil.importPublic(pub)
   }
   return new Wallet(null, pub)
 }
@@ -230,13 +230,13 @@ Wallet.fromV1 = function (input, password) {
 
   var ciphertext = Buffer.from(json.Crypto.CipherText, 'hex')
 
-  var mac = ethUtil.sha3(Buffer.concat([ derivedKey.slice(16, 32), ciphertext ]))
+  var mac = moacUtil.keccak(Buffer.concat([ derivedKey.slice(16, 32), ciphertext ]))
 
   if (mac.toString('hex') !== json.Crypto.MAC) {
     throw new Error('Key derivation failed - possibly wrong passphrase')
   }
 
-  var decipher = crypto.createDecipheriv('aes-128-cbc', ethUtil.sha3(derivedKey.slice(0, 16)).slice(0, 16), Buffer.from(json.Crypto.IV, 'hex'))
+  var decipher = crypto.createDecipheriv('aes-128-cbc', moacUtil.keccak(derivedKey.slice(0, 16)).slice(0, 16), Buffer.from(json.Crypto.IV, 'hex'))
   var seed = decipherBuffer(decipher, ciphertext)
 
   return new Wallet(seed)
@@ -271,7 +271,7 @@ Wallet.fromV3 = function (input, password, nonStrict) {
 
   var ciphertext = Buffer.from(json.crypto.ciphertext, 'hex')
 
-  var mac = ethUtil.sha3(Buffer.concat([ derivedKey.slice(16, 32), ciphertext ]))
+  var mac = moacUtil.keccak(Buffer.concat([ derivedKey.slice(16, 32), ciphertext ]))
   if (mac.toString('hex') !== json.crypto.mac) {
     throw new Error('Key derivation failed - possibly wrong passphrase')
   }
@@ -301,7 +301,7 @@ Wallet.fromEthSale = function (input, password) {
   var decipher = crypto.createDecipheriv('aes-128-cbc', derivedKey, encseed.slice(0, 16))
   var seed = decipherBuffer(decipher, encseed.slice(16))
 
-  var wallet = new Wallet(ethUtil.sha3(seed))
+  var wallet = new Wallet(moacUtil.keccak(seed))
   if (wallet.getAddress().toString('hex') !== json.ethaddr) {
     throw new Error('Decoded key mismatch - possibly wrong passphrase')
   }
