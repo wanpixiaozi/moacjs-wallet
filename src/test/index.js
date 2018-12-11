@@ -2,7 +2,7 @@ var assert = require('assert')
 var Buffer = require('safe-buffer').Buffer
 var Wallet = require('../')
 var Thirdparty = require('../thirdparty.js')
-var ethUtil = require('ethereumjs-util')
+var moacUtil = require('moacjs-util')
 
 var fixturePrivateKey = 'efca4cdd31923b50f4214af5d2ae10e7ac45a5019e9431cc195482d707485378'
 var fixturePrivateKeyStr = '0x' + fixturePrivateKey
@@ -111,23 +111,23 @@ describe('.generate()', function () {
     assert.equal(Wallet.generate().getPrivateKey().length, 32)
   })
   it('should generate an account compatible with ICAP Direct', function () {
-    var max = new ethUtil.BN('088f924eeceeda7fe92e1f5b0fffffffffffffff', 16)
+    var max = new moacUtil.BN('088f924eeceeda7fe92e1f5b0fffffffffffffff', 16)
     var wallet = Wallet.generate(true)
     assert.equal(wallet.getPrivateKey().length, 32)
-    assert.equal(new ethUtil.BN(wallet.getAddress()).lte(max), true)
+    assert.equal(new moacUtil.BN(wallet.getAddress()).lte(max), true)
   })
 })
 
 describe('.generateVanityAddress()', function () {
   it('should generate an account with 000 prefix (object)', function () {
-    this.timeout(180000) // 3minutes
+    this.timeout(180000) // 3 minutes
     var wallet = Wallet.generateVanityAddress(/^000/)
     assert.equal(wallet.getPrivateKey().length, 32)
     assert.equal(wallet.getAddress()[0], 0)
     assert.equal(wallet.getAddress()[1] >>> 4, 0)
   })
   it('should generate an account with 000 prefix (string)', function () {
-    this.timeout(180000) // 3minutes
+    this.timeout(180000) // 3 minutes
     var wallet = Wallet.generateVanityAddress('^000')
     assert.equal(wallet.getPrivateKey().length, 32)
     assert.equal(wallet.getAddress()[0], 0)
@@ -188,13 +188,13 @@ describe('.fromV3()', function () {
   it('should work with Scrypt', function () {
     var sample = '{"address":"2f91eb73a6cd5620d7abb50889f24eea7a6a4feb","crypto":{"cipher":"aes-128-ctr","cipherparams":{"iv":"a2bc4f71e8445d64ceebd1247079fbd8"},"ciphertext":"6b9ab7954c9066fa1e54e04e2c527c7d78a77611d5f84fede1bd61ab13c51e3e","kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"r":1,"p":8,"salt":"caf551e2b7ec12d93007e528093697a4c68e8a50e663b2a929754a8085d9ede4"},"mac":"506cace9c5c32544d39558025cb3bf23ed94ba2626e5338c82e50726917e1a15"},"id":"1b3cad9b-fa7b-4817-9022-d5e598eb5fe3","version":3}'
     var wallet = Wallet.fromV3(sample, 'testtest')
-    this.timeout(180000) // 3minutes
+    this.timeout(180000) // 3 minutes
     assert.equal(wallet.getAddressString(), '0x2f91eb73a6cd5620d7abb50889f24eea7a6a4feb')
   })
   it('should work with \'unencrypted\' wallets', function () {
     var w = '{"address":"a9886ac7489ecbcbd79268a79ef00d940e5fe1f2","crypto":{"cipher":"aes-128-ctr","cipherparams":{"iv":"c542cf883299b5b0a29155091054028d"},"ciphertext":"0a83c77235840cffcfcc5afe5908f2d7f89d7d54c4a796dfe2f193e90413ee9d","kdf":"scrypt","kdfparams":{"dklen":32,"n":262144,"r":1,"p":8,"salt":"699f7bf5f6985068dfaaff9db3b06aea8fe3dd3140b3addb4e60620ee97a0316"},"mac":"613fed2605240a2ff08b8d93ccc48c5b3d5023b7088189515d70df41d65f44de"},"id":"0edf817a-ee0e-4e25-8314-1f9e88a60811","version":3}'
     var wallet = Wallet.fromV3(w, '')
-    this.timeout(180000) // 3minutes
+    this.timeout(180000) // 3 minutes
     assert.equal(wallet.getAddressString(), '0xa9886ac7489ecbcbd79268a79ef00d940e5fe1f2')
   })
   it('should fail with invalid password', function () {
@@ -243,22 +243,22 @@ describe('.fromEthSale()', function () {
   })
 })
 
-describe('.fromEtherWallet()', function () {
+describe('.fromMoacWallet()', function () {
   it('should work with unencrypted input', function () {
-    var etherWalletUnencrypted = '{"address":"0x9d6abd11d36cc20d4836c25967f1d9efe6b1a27c","encrypted":true,"locked":false,"hash":"b7a6621e8b125a17234d3e5c35522696a84134d98d07eab2479d020a8613c4bd","private":"a2c6222146ca2269086351fda9f8d2dfc8a50331e8a05f0f400c13653a521862","public":"2ed129b50b1a4dbbc53346bf711df6893265ad0c700fd11431b0bc3a66bd383a87b10ad835804a6cbe092e0375a0cc3524acf06b1ec7bb978bf25d2d6c35d120"}'
-    var wallet = Thirdparty.fromEtherWallet(etherWalletUnencrypted)
+    var moacWalletUnencrypted = '{"address":"0x9d6abd11d36cc20d4836c25967f1d9efe6b1a27c","encrypted":true,"locked":false,"hash":"b7a6621e8b125a17234d3e5c35522696a84134d98d07eab2479d020a8613c4bd","private":"a2c6222146ca2269086351fda9f8d2dfc8a50331e8a05f0f400c13653a521862","public":"2ed129b50b1a4dbbc53346bf711df6893265ad0c700fd11431b0bc3a66bd383a87b10ad835804a6cbe092e0375a0cc3524acf06b1ec7bb978bf25d2d6c35d120"}'
+    var wallet = Thirdparty.fromMoacWallet(moacWalletUnencrypted)
     assert.equal(wallet.getAddressString(), '0x9d6abd11d36cc20d4836c25967f1d9efe6b1a27c')
   })
   it('should work with encrypted input', function () {
-    var etherWalletEncrypted = '{"address":"0x9d6abd11d36cc20d4836c25967f1d9efe6b1a27c","encrypted":true,"locked":true,"hash":"b7a6621e8b125a17234d3e5c35522696a84134d98d07eab2479d020a8613c4bd","private":"U2FsdGVkX1/hGPYlTZYGhzdwvtkoZfkeII4Ga4pSd/Ak373ORnwZE4nf/FFZZFcDTSH1X1+AmewadrW7dqvwr76QMYQVlihpPaFV307hWgKckkG0Mf/X4gJIQQbDPiKdcff9","public":"U2FsdGVkX1/awUDAekZQbEiXx2ct4ugXwgBllY0Hz+IwYkHiEhhxH+obu7AF7PCU2Vq5c0lpCzBUSvk2EvFyt46bw1OYIijw0iOr7fWMJEkz3bfN5mt9pYJIiPzN0gxM8u4mrmqLPUG2SkoZhWz4NOlqRUHZq7Ep6aWKz7KlEpzP9IrvDYwGubci4h+9wsspqtY1BdUJUN59EaWZSuOw1g=="}'
-    var wallet = Thirdparty.fromEtherWallet(etherWalletEncrypted, 'testtest')
+    var moacWalletEncrypted = '{"address":"0x9d6abd11d36cc20d4836c25967f1d9efe6b1a27c","encrypted":true,"locked":true,"hash":"b7a6621e8b125a17234d3e5c35522696a84134d98d07eab2479d020a8613c4bd","private":"U2FsdGVkX1/hGPYlTZYGhzdwvtkoZfkeII4Ga4pSd/Ak373ORnwZE4nf/FFZZFcDTSH1X1+AmewadrW7dqvwr76QMYQVlihpPaFV307hWgKckkG0Mf/X4gJIQQbDPiKdcff9","public":"U2FsdGVkX1/awUDAekZQbEiXx2ct4ugXwgBllY0Hz+IwYkHiEhhxH+obu7AF7PCU2Vq5c0lpCzBUSvk2EvFyt46bw1OYIijw0iOr7fWMJEkz3bfN5mt9pYJIiPzN0gxM8u4mrmqLPUG2SkoZhWz4NOlqRUHZq7Ep6aWKz7KlEpzP9IrvDYwGubci4h+9wsspqtY1BdUJUN59EaWZSuOw1g=="}'
+    var wallet = Thirdparty.fromMoacWallet(moacWalletEncrypted, 'testtest')
     assert.equal(wallet.getAddressString(), '0x9d6abd11d36cc20d4836c25967f1d9efe6b1a27c')
   })
 })
 
-describe('.fromEtherCamp()', function () {
+describe('.fromMoacCamp()', function () {
   it('should work with seed text', function () {
-    var wallet = Thirdparty.fromEtherCamp('ethercamp123')
+    var wallet = Thirdparty.fromMoacCamp('ethercamp123')
     assert.equal(wallet.getAddressString(), '0x182b6ca390224c455f11b6337d74119305014ed4')
   })
 })
