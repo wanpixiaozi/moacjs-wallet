@@ -1,46 +1,46 @@
 const HDKey = require('hdkey')
 const Wallet = require('./index.js')
 
-function EthereumHDKey () {
+function MoacHDKey () {
 }
 
 /*
  * Horrible wrapping.
  */
 function fromHDKey (hdkey) {
-  var ret = new EthereumHDKey()
+  var ret = new MoacHDKey()
   ret._hdkey = hdkey
   return ret
 }
 
-EthereumHDKey.fromMasterSeed = function (seedBuffer) {
+MoacHDKey.fromMasterSeed = function (seedBuffer) {
   return fromHDKey(HDKey.fromMasterSeed(seedBuffer))
 }
 
-EthereumHDKey.fromExtendedKey = function (base58key) {
+MoacHDKey.fromExtendedKey = function (base58key) {
   return fromHDKey(HDKey.fromExtendedKey(base58key))
 }
 
-EthereumHDKey.prototype.privateExtendedKey = function () {
+MoacHDKey.prototype.privateExtendedKey = function () {
   if (!this._hdkey.privateExtendedKey) {
     throw new Error('This is a public key only wallet')
   }
   return this._hdkey.privateExtendedKey
 }
 
-EthereumHDKey.prototype.publicExtendedKey = function () {
+MoacHDKey.prototype.publicExtendedKey = function () {
   return this._hdkey.publicExtendedKey
 }
 
-EthereumHDKey.prototype.derivePath = function (path) {
+MoacHDKey.prototype.derivePath = function (path) {
   return fromHDKey(this._hdkey.derive(path))
 }
 
-EthereumHDKey.prototype.deriveChild = function (index) {
+MoacHDKey.prototype.deriveChild = function (index) {
   return fromHDKey(this._hdkey.deriveChild(index))
 }
 
-EthereumHDKey.prototype.getWallet = function () {
+MoacHDKey.prototype.getWallet = function () {
   if (this._hdkey._privateKey) {
     return Wallet.fromPrivateKey(this._hdkey._privateKey)
   } else {
@@ -48,4 +48,4 @@ EthereumHDKey.prototype.getWallet = function () {
   }
 }
 
-module.exports = EthereumHDKey
+module.exports = MoacHDKey
