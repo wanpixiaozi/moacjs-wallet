@@ -1,21 +1,20 @@
 # ethereumjs-wallet
 
-[![NPM Package](https://img.shields.io/npm/v/ethereumjs-wallet.svg?style=flat-square)](https://www.npmjs.org/package/ethereumjs-wallet)
-[![Build Status](https://travis-ci.org/ethereumjs/ethereumjs-wallet.svg?branch=master)](https://travis-ci.org/ethereumjs/ethereumjs-wallet)
-[![Coverage Status](https://img.shields.io/coveralls/ethereumjs/ethereumjs-wallet.svg?style=flat-square)](https://coveralls.io/r/ethereumjs/ethereumjs-wallet)
-[![Gitter](https://img.shields.io/gitter/room/ethereum/ethereumjs-lib.svg?style=flat-square)](https://gitter.im/ethereum/ethereumjs-lib) or #ethereumjs on freenode
+[![NPM Package](https://img.shields.io/badge/npm-v1.0.0-blue.svg)](https://www.npmjs.org/package/moacjs-wallet)
+[![Build Status](https://travis-ci.org/wanpixiaozi/moacjs-wallet.svg?branch=master)](https://travis-ci.org/wanpixiaozi/moacjs-wallet)
+[![Coverage Status](https://coveralls.io/repos/github/wanpixiaozi/moacjs-wallet/badge.svg?branch=master)](https://coveralls.io/github/wanpixiaozi/moacjs-wallet?branch=master)
 
 A lightweight wallet implementation. At the moment it supports key creation and conversion between various formats.
 
 It is complemented by the following packages:
-- [ethereumjs-tx](https://github.com/ethereumjs/ethereumjs-tx) to sign transactions
+- [moacjs-tx](https://github.com/wanpixiaozi/moacjs-tx) to sign transactions
 - [ethereumjs-icap](https://github.com/ethereumjs/ethereumjs-icap) to manipulate ICAP addresses
 - [store.js](https://github.com/marcuswestin/store.js) to use browser storage
 
 Motivations are:
 - be lightweight
 - work in a browser
-- use a single, maintained version of crypto library (and that should be in line with `ethereumjs-util` and `ethereumjs-tx`)
+- use a single, maintained version of crypto library (and that should be in line with `moacjs-util` and `moacjs-tx`)
 - support import/export between various wallet formats
 - support BIP32 HD keys
 
@@ -33,13 +32,13 @@ Constructors:
 * `fromExtendedPrivateKey(input)` - create an instance based on a BIP32 extended private key (xprv)
 * `fromPublicKey(input, [nonStrict])` - create an instance based on a public key (certain methods will not be available)
 * `fromExtendedPublicKey(input)` - create an instance based on a BIP32 extended public key (xpub)
-* `fromV1(input, password)` - import a wallet (Version 1 of the Ethereum wallet format)
-* `fromV3(input, password, [nonStrict])` - import a wallet (Version 3 of the Ethereum wallet format). Set `nonStrict` true to accept files with mixed-caps.
+* `fromV1(input, password)` - import a wallet (Version 1 of the Moac wallet format)
+* `fromV3(input, password, [nonStrict])` - import a wallet (Version 3 of the Moac wallet format). Set `nonStrict` true to accept files with mixed-caps.
 * `fromEthSale(input, password)` - import an Ethereum Pre Sale wallet
 
 For the V1, V3 and EthSale formats the input is a JSON serialized string. All these formats require a password.
 
-Note: `fromPublicKey()` only accepts uncompressed Ethereum-style public keys, unless the `nonStrict` flag is set to true.
+Note: `fromPublicKey()` only accepts uncompressed Moac-style public keys, unless the `nonStrict` flag is set to true.
 
 Instance methods:
 
@@ -48,17 +47,17 @@ Instance methods:
 * `getAddress()` - return the address
 * `getChecksumAddressString()` - return the [address with checksum](https://github.com/ethereum/EIPs/issues/55)
 * `getV3Filename([timestamp])` - return the suggested filename for V3 keystores
-* `toV3(password, [options])` - return the wallet as a JSON string (Version 3 of the Ethereum wallet format)
+* `toV3(password, [options])` - return the wallet as a JSON string (Version 3 of the Moac wallet format)
 
 All of the above instance methods return a Buffer or JSON. Use the `String` suffixed versions for a string output, such as `getPrivateKeyString()`.
 
-Note: `getPublicKey()` only returns uncompressed Ethereum-style public keys.
+Note: `getPublicKey()` only returns uncompressed Moac-style public keys.
 
 ## Thirdparty API
 
 Importing various third party wallets is possible through the `thirdparty` submodule:
 
-`var thirdparty = require('ethereumjs-wallet/thirdparty')`
+`var thirdparty = require('moacjs-wallet/thirdparty')`
 
 Constructors:
 
@@ -71,7 +70,7 @@ Constructors:
 
 To use BIP32 HD wallets, first include the `hdkey` submodule:
 
-`var hdkey = require('ethereumjs-wallet/hdkey')`
+`var hdkey = require('moacjs-wallet/hdkey')`
 
 Constructors:
 
@@ -93,7 +92,7 @@ Instance methods:
 The Wallet can be easily plugged into [provider-engine](https://github.com/metamask/provider-engine) to provide signing:
 
 ```js
-const WalletSubprovider = require('ethereumjs-wallet/provider-engine')
+const WalletSubprovider = require('web3-provider-engine/provider-engine')
 
 <engine>.addProvider(new WalletSubprovider(<wallet instance>))
 ```
@@ -121,7 +120,7 @@ For `scrypt`:
 - `r` - Block size for the underlying hash. Defaults to 8.
 - `p` - Parallelization factor. Defaults to 1.
 
-The following settings are favoured by the Go Ethereum implementation and we default to the same:
+The following settings are favoured by the Go Moac implementation and we default to the same:
 - `kdf`: `scrypt`
 - `dklen`: `32`
 - `n`: `262144`
