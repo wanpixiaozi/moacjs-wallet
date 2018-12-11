@@ -85,7 +85,7 @@ function decodeCryptojsSalt (input) {
  * This wallet format is created by https://github.com/SilentCicero/ethereumjs-accounts
  * and used on https://www.myetherwallet.com/
  */
-Thirdparty.fromMoacWallet = function (input, password) {
+Thirdparty.fromEtherWallet = function (input, password) {
   var json = (typeof input === 'object') ? input : JSON.parse(input)
 
   var privKey
