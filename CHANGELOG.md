@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.0.0] - 2018-12-11
+- build for Moac blockchain
+
 ## [0.6.2] - 2018-08-08
 - [PLEASE UPDATE!] Fixes a critical import bug introduced in ``v0.6.1`` accidentally
   changing the import path for the different submodules, see PR [#65](https://github.com/ethereumjs/ethereumjs-wallet/pull/65)
