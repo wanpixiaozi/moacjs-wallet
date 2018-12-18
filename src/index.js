@@ -197,7 +197,7 @@ Wallet.fromPublicKey = function (pub, nonStrict) {
 Wallet.fromExtendedPublicKey = function (pub) {
   assert(pub.slice(0, 4) === 'xpub', 'Not an extended public key')
   pub = bs58check.decode(pub).slice(45)
-  // Convert to an Ethereum public key
+  // Convert to an Moac public key
   return Wallet.fromPublicKey(pub, true)
 }
 
