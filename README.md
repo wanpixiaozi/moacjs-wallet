@@ -1,6 +1,6 @@
 # moacjs-wallet
 
-[![NPM Package](https://img.shields.io/badge/npm-v1.0.0-blue.svg)](https://www.npmjs.org/package/moacjs-wallet)
+[![NPM Package](https://img.shields.io/badge/npm-v1.0.1-blue.svg)](https://www.npmjs.org/package/moacjs-wallet)
 [![Build Status](https://travis-ci.org/wanpixiaozi/moacjs-wallet.svg?branch=master)](https://travis-ci.org/wanpixiaozi/moacjs-wallet)
 [![Coverage Status](https://coveralls.io/repos/github/wanpixiaozi/moacjs-wallet/badge.svg?branch=master)](https://coveralls.io/github/wanpixiaozi/moacjs-wallet?branch=master)
 
@@ -8,7 +8,6 @@ A lightweight wallet implementation. At the moment it supports key creation and 
 
 It is complemented by the following packages:
 - [moacjs-tx](https://github.com/wanpixiaozi/moacjs-tx) to sign transactions
-- [ethereumjs-icap](https://github.com/ethereumjs/ethereumjs-icap) to manipulate ICAP addresses
 - [store.js](https://github.com/marcuswestin/store.js) to use browser storage
 
 Motivations are:
@@ -44,7 +43,7 @@ Instance methods:
 * `getPrivateKey()` - return the private key
 * `getPublicKey()` - return the public key
 * `getAddress()` - return the address
-* `getChecksumAddressString()` - return the [address with checksum](https://github.com/ethereum/EIPs/issues/55)
+* `getChecksumAddressString()` - return the [address with checksum]
 * `getV3Filename([timestamp])` - return the suggested filename for V3 keystores
 * `toV3(password, [options])` - return the wallet as a JSON string (Version 3 of the Moac wallet format)
 
