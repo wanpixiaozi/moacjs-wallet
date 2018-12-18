@@ -282,30 +282,4 @@ Wallet.fromV3 = function (input, password, nonStrict) {
   return new Wallet(seed)
 }
 
-/*
- * Based on https://github.com/ethereum/pyethsaletool/blob/master/pyethsaletool.py
- * JSON fields: encseed, ethaddr, btcaddr, email
- */
-Wallet.fromEthSale = function (input, password) {
-  assert(typeof password === 'string')
-  var json = (typeof input === 'object') ? input : JSON.parse(input)
-
-  var encseed = Buffer.from(json.encseed, 'hex')
-
-  // key derivation
-  var derivedKey = crypto.pbkdf2Sync(password, password, 2000, 32, 'sha256').slice(0, 16)
-
-  // seed decoding (IV is first 16 bytes)
-  // NOTE: crypto (derived from openssl) when used with aes-*-cbc will handle PKCS#7 padding internally
-  //       see also http://stackoverflow.com/a/31614770/4964819
-  var decipher = crypto.createDecipheriv('aes-128-cbc', derivedKey, encseed.slice(0, 16))
-  var seed = decipherBuffer(decipher, encseed.slice(16))
-
-  var wallet = new Wallet(moacUtil.keccak(seed))
-  if (wallet.getAddress().toString('hex') !== json.ethaddr) {
-    throw new Error('Decoded key mismatch - possibly wrong passphrase')
-  }
-  return wallet
-}
-
 module.exports = Wallet
