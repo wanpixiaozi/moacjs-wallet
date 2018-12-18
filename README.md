@@ -1,4 +1,4 @@
-# ethereumjs-wallet
+# moacjs-wallet
 
 [![NPM Package](https://img.shields.io/badge/npm-v1.0.0-blue.svg)](https://www.npmjs.org/package/moacjs-wallet)
 [![Build Status](https://travis-ci.org/wanpixiaozi/moacjs-wallet.svg?branch=master)](https://travis-ci.org/wanpixiaozi/moacjs-wallet)
@@ -34,7 +34,6 @@ Constructors:
 * `fromExtendedPublicKey(input)` - create an instance based on a BIP32 extended public key (xpub)
 * `fromV1(input, password)` - import a wallet (Version 1 of the Moac wallet format)
 * `fromV3(input, password, [nonStrict])` - import a wallet (Version 3 of the Moac wallet format). Set `nonStrict` true to accept files with mixed-caps.
-* `fromEthSale(input, password)` - import an Ethereum Pre Sale wallet
 
 For the V1, V3 and EthSale formats the input is a JSON serialized string. All these formats require a password.
 
