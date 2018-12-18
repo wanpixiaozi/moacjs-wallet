@@ -212,7 +212,6 @@ Wallet.fromExtendedPrivateKey = function (priv) {
   return Wallet.fromPrivateKey(tmp.slice(46))
 }
 
-// https://github.com/ethereum/go-ethereum/wiki/Passphrase-protected-key-store-spec
 Wallet.fromV1 = function (input, password) {
   assert(typeof password === 'string')
   var json = (typeof input === 'object') ? input : JSON.parse(input)
