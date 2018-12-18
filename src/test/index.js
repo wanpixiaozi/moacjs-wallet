@@ -267,8 +267,8 @@ describe('.fromKryptoKit()', function () {
 
 describe('.fromQuorumWallet()', function () {
   it('should work', function () {
-    var wallet = Thirdparty.fromQuorumWallet('testtesttest', 'ethereumjs-wallet')
-    assert.equal(wallet.getAddressString(), '0x1b86ccc22e8f137f204a41a23033541242a48815')
+    var wallet = Thirdparty.fromQuorumWallet('testtesttest', 'moacjs-wallet')
+    assert.equal(wallet.getAddressString(), '0xb67eafc3add6219765204de630d0bddb699324de')
   })
 })
 
