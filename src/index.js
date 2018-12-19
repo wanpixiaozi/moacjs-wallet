@@ -106,7 +106,6 @@ Wallet.prototype.getChecksumAddressString = function () {
   return moacUtil.toChecksumAddress(this.getAddressString())
 }
 
-// https://github.com/ethereum/wiki/wiki/Web3-Secret-Storage-Definition
 Wallet.prototype.toV3 = function (password, opts) {
   assert(this._privKey, 'This is a public key only wallet')
 
