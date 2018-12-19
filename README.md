@@ -1,6 +1,6 @@
 # moacjs-wallet
 
-[![NPM Package](https://img.shields.io/badge/npm-v1.0.1-blue.svg)](https://www.npmjs.org/package/moacjs-wallet)
+[![NPM Package](https://img.shields.io/badge/npm-v1.0.2-blue.svg)](https://www.npmjs.org/package/moacjs-wallet)
 [![Build Status](https://travis-ci.org/wanpixiaozi/moacjs-wallet.svg?branch=master)](https://travis-ci.org/wanpixiaozi/moacjs-wallet)
 [![Coverage Status](https://coveralls.io/repos/github/wanpixiaozi/moacjs-wallet/badge.svg?branch=master)](https://coveralls.io/github/wanpixiaozi/moacjs-wallet?branch=master)
 
