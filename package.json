@@ -1,6 +1,6 @@
 {
   "name": "moacjs-wallet",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Utilities for handling Moac keys",
   "main": "index.js",
   "files": [
